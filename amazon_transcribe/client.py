@@ -14,7 +14,7 @@
 
 import re
 from binascii import unhexlify
-from typing import Optional
+from typing import Optional, Union, List
 
 from amazon_transcribe import AWSCRTEventLoop
 from amazon_transcribe.auth import AwsCrtCredentialResolver, CredentialResolver
@@ -71,9 +71,9 @@ class TranscribeStreamingClient:
     async def start_stream_transcription(
         self,
         *,
-        language_code: str,
-        media_sample_rate_hz: int,
-        media_encoding: str,
+        language_code: Optional[str] = None,
+        media_sample_rate_hz: Optional[int] = None,
+        media_encoding: Optional[str] = None,
         vocabulary_name: Optional[str] = None,
         session_id: Optional[str] = None,
         vocab_filter_method: Optional[str] = None,
@@ -84,6 +84,10 @@ class TranscribeStreamingClient:
         enable_partial_results_stabilization: Optional[bool] = None,
         partial_results_stability: Optional[str] = None,
         language_model_name: Optional[str] = None,
+        identify_language: Optional[bool] = None,
+        identify_multiple_languages: Optional[bool] = None,
+        language_options: Optional[Union[list, List[str]]] = None,
+        preferred_language: Optional[str] = None,
     ) -> StartStreamTranscriptionEventStream:
         """Coordinate transcription settings and start stream.
 
@@ -159,6 +163,10 @@ class TranscribeStreamingClient:
             enable_partial_results_stabilization,
             partial_results_stability,
             language_model_name,
+            identify_language,
+            identify_multiple_languages,
+            language_options,
+            preferred_language
         )
         endpoint = await self._endpoint_resolver.resolve(self.region)
 

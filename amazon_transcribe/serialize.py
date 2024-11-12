@@ -39,7 +39,10 @@ class TranscribeStreamingSerializer:
         if value is None:
             return {}
         else:
-            return {f"{prefix}{header}": str(value)}
+            value = str(value)
+            if value == "True":
+                value = "true"
+            return {f"{prefix}{header}": value}
 
     def _serialize_str_header(
         self, header: str, value: Optional[str]
@@ -64,8 +67,22 @@ class TranscribeStreamingSerializer:
         request_uri = "/stream-transcription"
 
         headers: Dict[str, str] = {}
+
         headers.update(
             self._serialize_str_header("language-code", request_shape.language_code)
+        )
+        headers.update(
+            self._serialize_str_header("identify-language", request_shape.identify_language)
+        )
+        headers.update(
+            self._serialize_str_header("identify-multiple-languages", request_shape.identify_multiple_languages)
+        )
+        language_options = ",".join(request_shape.language_options) if isinstance(request_shape.language_options, list) else request_shape.language_options
+        headers.update(
+            self._serialize_str_header("language-options", language_options)
+        )
+        headers.update(
+            self._serialize_str_header("preferred-language", request_shape.preferred_language)
         )
         headers.update(
             self._serialize_int_header(
@@ -129,6 +146,7 @@ class TranscribeStreamingSerializer:
                 request_shape.language_model_name,
             )
         )
+        print(headers)
 
         _add_required_headers(endpoint, headers)
 

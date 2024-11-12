@@ -11,7 +11,7 @@
 # ANY KIND, either express or implied. See the License for the specific
 # language governing permissions and limitations under the License.
 
-from typing import Optional, List
+from typing import Optional, List, Union
 
 from amazon_transcribe.eventstream import BaseEvent, BaseStream, EventStream
 
@@ -243,6 +243,10 @@ class StartStreamTranscriptionRequest:
         enable_partial_results_stabilization=None,
         partial_results_stability=None,
         language_model_name=None,
+        identify_language=None,
+        identify_multiple_languages=None,
+        language_options=None,
+        preferred_language=None,
     ):
 
         self.language_code: Optional[str] = language_code
@@ -262,6 +266,10 @@ class StartStreamTranscriptionRequest:
         ] = enable_partial_results_stabilization
         self.partial_results_stability: Optional[str] = partial_results_stability
         self.language_model_name: Optional[str] = language_model_name
+        self.identify_language: Optional[bool] = identify_language
+        self.identify_multiple_languages: Optional[bool] = identify_multiple_languages
+        self.language_options: Optional[Union[list, List[str]]] = language_options
+        self.preferred_language: Optional[str] = preferred_language
 
 
 class StartStreamTranscriptionResponse:
