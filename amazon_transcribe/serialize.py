@@ -146,7 +146,6 @@ class TranscribeStreamingSerializer:
                 request_shape.language_model_name,
             )
         )
-        print(headers)
 
         _add_required_headers(endpoint, headers)
 
